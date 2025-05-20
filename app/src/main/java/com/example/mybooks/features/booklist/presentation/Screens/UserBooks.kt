@@ -119,7 +119,7 @@ fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
             Row {
                 // Book cover image
                 AsyncImage(
-                    model = "https://covers.openlibrary.org/b/id/${userBooks.coverId}-L.jpg",
+                    model = "https://covers.openlibrary.org/b/id/${userBooks.coverId}-M.jpg",
                     contentDescription = userBooks.coverId,
                     modifier = Modifier
                         .height(80.dp)
