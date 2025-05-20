@@ -1,7 +1,5 @@
 package com.example.mybooks.features.booklist.data.model
 
-import com.example.mybooks.features.booklist.domain.model.UserBooksModel
-
 data class MyBookResponse(
     val numFound: Int?,
     val page: Int?,

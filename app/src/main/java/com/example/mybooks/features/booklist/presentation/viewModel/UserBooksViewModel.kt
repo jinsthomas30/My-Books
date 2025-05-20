@@ -18,13 +18,13 @@ class UserBooksViewModel @Inject constructor(val getUserBooksUseCase: GetUserBoo
     val uiState: StateFlow<UiState> = _uiState
 
     init {
-        getUserBooks("jins719")
+        getUserBooks()
     }
 
-    private fun getUserBooks(username: String) {
+    private fun getUserBooks() {
         try {
             viewModelScope.launch {
-                getUserBooksUseCase(username).collect { resource ->
+                getUserBooksUseCase("jins719").collect { resource ->
                     _uiState.value =
                         when (resource) {
                             is ResourceState.Loading -> UiState.Loading
