@@ -61,7 +61,6 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
     }) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
             val uiState = viewModel.uiState.collectAsState()
-
             when (val state = uiState.value) {
                 is UiState.Loading -> Loading()
                 is UiState.Success -> UserBooksList(state.userBooks)
@@ -76,14 +75,12 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
 @Composable
 fun UserBooksList(userBooks: List<UserBooksModel>) {
     val bottomSheetState = rememberModalBottomSheetState()
-    var showBottomSheet = remember { mutableStateOf(false) }
     var selectedBook = remember { mutableStateOf<UserBooksModel?>(null) }
 
     // Show BottomSheet only when selectedBook is not null
-    if (showBottomSheet.value) {
+    if (selectedBook.value != null) {
         ModalBottomSheet(
             onDismissRequest = {
-                showBottomSheet.value = false
                 selectedBook.value = null
             },
             sheetState = bottomSheetState
@@ -93,13 +90,21 @@ fun UserBooksList(userBooks: List<UserBooksModel>) {
     }
 
     Column {
-        // List
-        LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
-            items(userBooks) { books ->
-                ListItem(books, onItemClick = {
-                    selectedBook.value = it
-                    showBottomSheet.value = true
-                })
+        if (userBooks.isEmpty()) {
+            Box(Modifier.fillMaxSize(), Alignment.Center) {
+                Text(
+                    stringResource(R.string.no_books_available),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        } else {
+            // List
+            LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
+                items(userBooks) { books ->
+                    ListItem(books, onItemClick = {
+                        selectedBook.value = it
+                    })
+                }
             }
         }
     }
@@ -136,7 +141,7 @@ fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
                     Text(text = userBooks.title, fontWeight = FontWeight.Bold, color = Color.Blue)
                     Spacer(Modifier.height(8.dp))
                     // Book Author
-                    Text(text = "By " + userBooks.author, color = Color.Blue)
+                    Text(text = "By ${userBooks.author}", color = Color.Blue)
                 }
             }
         }
