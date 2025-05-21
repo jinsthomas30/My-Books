@@ -66,20 +66,20 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
         Box(Modifier.padding(innerPadding)) {
             when (val state = uiState.value) {
                 is UiState.Loading -> Loading()
-                is UiState.Success -> { // Show BottomSheet only when selectedBook is not null
-                    if (selectedBook.value != null) {
+                is UiState.Success -> {
+                    // Show BottomSheet only when selectedBook is not null
+                    selectedBook.value?.let { book ->
                         ModalBottomSheet(
                             onDismissRequest = {
                                 selectedBook.value = null
                             },
                             sheetState = bottomSheetState
                         ) {
-                            BookDetailsBottomSheetContent(selectedBook.value!!)
+                            BookDetailsBottomSheetContent(book)
                         }
                     }
                     UserBooksList(state.userBooks, onItemClick = { selectedBook.value = it })
                 }
-
                 is UiState.Error -> ErrorMessage(state.errorMessage)
             }
         }
@@ -125,7 +125,7 @@ fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
                 // Book cover image
                 AsyncImage(
                     model = "https://covers.openlibrary.org/b/id/${userBooks.coverId}-M.jpg",
-                    contentDescription = "Cover id ${userBooks.coverId}",
+                    contentDescription = "Cover for ${userBooks.title}",
                     modifier = Modifier
                         .height(80.dp)
                         .width(60.dp),
@@ -137,10 +137,17 @@ fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
                         .padding(8.dp)
                 ) {
                     // Book title
-                    Text(text = userBooks.title, fontWeight = FontWeight.Bold, color = Color.Blue)
+                    Text(
+                        text = userBooks.title,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Blue
+                    )
                     Spacer(Modifier.height(8.dp))
                     // Book Author
-                    Text(text = "By ${userBooks.author}", color = Color.Blue)
+                    Text(
+                        text = "By ${userBooks.author}",
+                        color = Color.Blue
+                    )
                 }
             }
         }
