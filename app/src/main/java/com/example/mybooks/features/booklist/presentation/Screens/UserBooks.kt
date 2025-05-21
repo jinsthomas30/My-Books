@@ -48,6 +48,10 @@ import com.example.mybooks.features.booklist.presentation.viewModel.UserBooksVie
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
+    val bottomSheetState = rememberModalBottomSheetState()
+    var selectedBook = remember { mutableStateOf<UserBooksModel?>(null) }
+    val uiState = viewModel.uiState.collectAsState()
+
     Scaffold(topBar = {
         TopAppBar(
             title = {
@@ -60,10 +64,22 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
         )
     }) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            val uiState = viewModel.uiState.collectAsState()
             when (val state = uiState.value) {
                 is UiState.Loading -> Loading()
-                is UiState.Success -> UserBooksList(state.userBooks)
+                is UiState.Success -> { // Show BottomSheet only when selectedBook is not null
+                    if (selectedBook.value != null) {
+                        ModalBottomSheet(
+                            onDismissRequest = {
+                                selectedBook.value = null
+                            },
+                            sheetState = bottomSheetState
+                        ) {
+                            BookDetailsBottomSheetContent(selectedBook.value!!)
+                        }
+                    }
+                    UserBooksList(state.userBooks, onItemClick = { selectedBook.value = it })
+                }
+
                 is UiState.Error -> ErrorMessage(state.errorMessage)
             }
         }
@@ -73,22 +89,7 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserBooksList(userBooks: List<UserBooksModel>) {
-    val bottomSheetState = rememberModalBottomSheetState()
-    var selectedBook = remember { mutableStateOf<UserBooksModel?>(null) }
-
-    // Show BottomSheet only when selectedBook is not null
-    if (selectedBook.value != null) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                selectedBook.value = null
-            },
-            sheetState = bottomSheetState
-        ) {
-            BookDetailsBottomSheetContent(selectedBook.value!!)
-        }
-    }
-
+fun UserBooksList(userBooks: List<UserBooksModel>, onItemClick: (UserBooksModel) -> Unit) {
     Column {
         if (userBooks.isEmpty()) {
             Box(Modifier.fillMaxSize(), Alignment.Center) {
@@ -101,9 +102,7 @@ fun UserBooksList(userBooks: List<UserBooksModel>) {
             // List
             LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
                 items(userBooks) { books ->
-                    ListItem(books, onItemClick = {
-                        selectedBook.value = it
-                    })
+                    ListItem(books, onItemClick)
                 }
             }
         }
