@@ -59,13 +59,14 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
             ),
         )
     }) { innerPadding ->
-        val padding = innerPadding
-        val uiState = viewModel.uiState.collectAsState()
+        Box(Modifier.padding(innerPadding)) {
+            val uiState = viewModel.uiState.collectAsState()
 
-        when (val state = uiState.value) {
-            is UiState.Loading -> Loading()
-            is UiState.Success -> UserBooksList(state.userBooks)
-            is UiState.Error -> ErrorMessage(state.errorMessage)
+            when (val state = uiState.value) {
+                is UiState.Loading -> Loading()
+                is UiState.Success -> UserBooksList(state.userBooks)
+                is UiState.Error -> ErrorMessage(state.errorMessage)
+            }
         }
     }
 
@@ -91,7 +92,7 @@ fun UserBooksList(userBooks: List<UserBooksModel>) {
         }
     }
 
-    Column(Modifier.padding(top = 60.dp)) {
+    Column {
         // List
         LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
             items(userBooks) { books ->
@@ -120,7 +121,7 @@ fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
                 // Book cover image
                 AsyncImage(
                     model = "https://covers.openlibrary.org/b/id/${userBooks.coverId}-M.jpg",
-                    contentDescription = userBooks.coverId,
+                    contentDescription = "Cover id ${userBooks.coverId}",
                     modifier = Modifier
                         .height(80.dp)
                         .width(60.dp),
