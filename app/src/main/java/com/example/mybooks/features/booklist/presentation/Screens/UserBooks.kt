@@ -26,8 +26,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,8 +51,8 @@ import com.example.mybooks.features.booklist.presentation.viewModel.UserBooksVie
 @Composable
 fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
     val bottomSheetState = rememberModalBottomSheetState()
-    var selectedBook = remember { mutableStateOf<UserBooksModel?>(null) }
-    val uiState = viewModel.uiState.collectAsState()
+    var selectedBook by remember { mutableStateOf<UserBooksModel?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(topBar = {
         TopAppBar(
@@ -64,22 +66,23 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
         )
     }) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            when (val state = uiState.value) {
+            when (val state = uiState) {
                 is UiState.Loading -> Loading()
                 is UiState.Success -> {
                     // Show BottomSheet only when selectedBook is not null
-                    selectedBook.value?.let { book ->
+                    selectedBook?.let { book ->
                         ModalBottomSheet(
                             onDismissRequest = {
-                                selectedBook.value = null
+                                selectedBook = null
                             },
                             sheetState = bottomSheetState
                         ) {
                             BookDetailsBottomSheetContent(book)
                         }
                     }
-                    UserBooksList(state.userBooks, onItemClick = { selectedBook.value = it })
+                    UserBooksList(state.userBooks, onItemClick = { selectedBook = it })
                 }
+
                 is UiState.Error -> ErrorMessage(state.errorMessage)
             }
         }
