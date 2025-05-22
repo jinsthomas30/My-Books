@@ -28,7 +28,7 @@ object AppModule {
     }
 
     @Provides
-    fun provideUserBooksRepository(apiService: ApiService): BookRepository =
+    fun provideBooksRepository(apiService: ApiService): BookRepository =
         BookRepositoryImpl(apiService)
 
 }

@@ -15,12 +15,12 @@ class BookRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : BookRepository {
 
-    override fun getUserBooks(username: String): Observable<ResultState<List<BookItem>>> {
-        return apiService.getUserBooks(username)
+    override fun getBooks(username: String): Observable<ResultState<List<BookItem>>> {
+        return apiService.getBooks(username)
             .map<ResultState<List<BookItem>>> { response ->
                 val mapper = BooksResponseMapper()
-                val userBooks = mapper.mapToDomain(response)
-                ResultState.Success(userBooks)
+                val Books = mapper.mapToDomain(response)
+                ResultState.Success(Books)
             }
             .onErrorReturn { throwable ->
                 val (message, errorType) = when (throwable) {

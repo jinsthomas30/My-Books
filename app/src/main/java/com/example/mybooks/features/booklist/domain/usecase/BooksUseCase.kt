@@ -8,5 +8,5 @@ import javax.inject.Inject
 
 class BooksUseCase @Inject constructor(val bookRepository: BookRepository) {
     operator fun invoke(username: String): Observable<ResultState<List<BookItem>>> =
-        bookRepository.getUserBooks(username)
+        bookRepository.getBooks(username)
 }

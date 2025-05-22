@@ -5,5 +5,5 @@ import com.example.mybooks.features.booklist.presentation.state.ResultState
 import io.reactivex.rxjava3.core.Observable
 
 interface BookRepository {
-    fun getUserBooks(username: String): Observable<ResultState<List<BookItem>>>
+    fun getBooks(username: String): Observable<ResultState<List<BookItem>>>
 }

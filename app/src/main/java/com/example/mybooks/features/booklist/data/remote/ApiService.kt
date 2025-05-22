@@ -8,5 +8,5 @@ import retrofit2.http.Path
 interface ApiService {
 
     @GET("people/{username}/books/want-to-read.json")
-    fun getUserBooks(@Path("username") username: String): Observable<BookResponse>
+    fun getBooks(@Path("username") username: String): Observable<BookResponse>
 }

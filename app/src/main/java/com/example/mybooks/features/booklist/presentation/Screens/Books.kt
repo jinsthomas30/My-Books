@@ -45,11 +45,11 @@ import coil.compose.AsyncImage
 import com.example.mybooks.R
 import com.example.mybooks.features.booklist.domain.model.BookItem
 import com.example.mybooks.features.booklist.presentation.state.UiState
-import com.example.mybooks.features.booklist.presentation.viewModel.UserBooksViewModel
+import com.example.mybooks.features.booklist.presentation.viewModel.BooksViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
+fun Books(viewModel: BooksViewModel = hiltViewModel()) {
     val bottomSheetState = rememberModalBottomSheetState()
     var selectedBook by remember { mutableStateOf<BookItem?>(null) }
     val uiState by viewModel.uiState.collectAsState()
@@ -80,7 +80,7 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
                             BookDetailsBottomSheetContent(book)
                         }
                     }
-                    UserBooksList(state.userBooks, onItemClick = { selectedBook = it })
+                    BooksList(state.Books, onItemClick = { selectedBook = it })
                 }
 
                 is UiState.Error -> ErrorMessage(state.errorMessage)
@@ -92,9 +92,9 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserBooksList(userBooks: List<BookItem>, onItemClick: (BookItem) -> Unit) {
+fun BooksList(Books: List<BookItem>, onItemClick: (BookItem) -> Unit) {
     Column {
-        if (userBooks.isEmpty()) {
+        if (Books.isEmpty()) {
             Box(Modifier.fillMaxSize(), Alignment.Center) {
                 Text(
                     stringResource(R.string.no_books_available),
@@ -104,7 +104,7 @@ fun UserBooksList(userBooks: List<BookItem>, onItemClick: (BookItem) -> Unit) {
         } else {
             // List
             LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
-                items(userBooks) { books ->
+                items(Books) { books ->
                     ListItem(books, onItemClick)
                 }
             }

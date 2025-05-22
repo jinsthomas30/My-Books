@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class UserBooksViewModel @Inject constructor(
+class BooksViewModel @Inject constructor(
     private val booksUseCase: BooksUseCase
 ) : ViewModel() {
 
@@ -22,10 +22,10 @@ class UserBooksViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     init {
-        getUserBooks("mekBot")
+        getBooks("mekBot")
     }
 
-    fun getUserBooks(username: String) {
+    fun getBooks(username: String) {
         val disposable = booksUseCase(username)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
