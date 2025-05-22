@@ -7,8 +7,8 @@ import com.example.mybooks.features.booklist.domain.repository.BookRepository
 import com.example.mybooks.features.booklist.presentation.state.ErrorType
 import com.example.mybooks.features.booklist.presentation.state.ResultState
 import io.reactivex.rxjava3.core.Observable
-import java.io.IOException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
@@ -24,11 +24,11 @@ class BookRepositoryImpl @Inject constructor(
             }
             .onErrorReturn { throwable ->
                 val (message, errorType) = when (throwable) {
-                    is IOException -> "No internet connection" to ErrorType.NETWORK
-                    is SocketTimeoutException -> "Request timed out" to ErrorType.TIMEOUT
+                    is UnknownHostException -> "No internet connection" to ErrorType.NETWORK
+                    is SocketTimeoutException  -> "Request timed out" to ErrorType.TIMEOUT
                     else -> throwable.localizedMessage to ErrorType.UNKNOWN
                 }
-                ResultState.Error(message, errorType)
+                ResultState.Error(message,errorType)
             }
             .startWithItem(ResultState.Loading)
     }
