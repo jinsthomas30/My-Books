@@ -1,17 +1,24 @@
-Highlights of the Implementation
+# My Books App
 
-•	MVVM with Clean Architecture: Ensures separation of concerns and a scalable, testable structure.
+An Android application that displays a list of books from OpenLibrary API using MVVM architecture.
 
-•	State Management: Properly handles UI states (Loading, Success, Error) for better user experience and maintainability.
+## Features
+- Fetches books from OpenLibrary API
+- Displays books in a scrollable list with covers, titles, and authors
+- Shows loading and error states
+- Book details in bottom sheet
 
-•	Coroutines & Flow: Used for asynchronous and reactive programming, enabling structured concurrency and cleaner data flow—used as an alternative to RxJava.
+## Technologies
+- MVVM Architecture
+- RxJava for asynchronous operations
+- Retrofit for networking
+- Hilt for dependency injection
+- Coil for image loading
 
-•	Retrofit: Used for network communication to fetch data from the Open Library API.
+## Setup
+1. Clone the repository
+2. Open in Android Studio
+3. Build and run
 
-•	Coil: Lightweight and fast image loading library used to display book covers.
-
-•	ModalBottomSheet: Displays book details in a modern and interactive way upon item selection.
-
-•	Hilt: Simplifies dependency injection and improves modularity.
-
-•	Jetpack Compose: Used for building a modern, declarative UI.
+## API Reference
+[OpenLibrary API Documentation](https://openlibrary.org/developers/api)
