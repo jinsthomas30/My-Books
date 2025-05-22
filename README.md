@@ -7,7 +7,6 @@ An Android application that displays a list of books from OpenLibrary API using 
 - Displays books in a scrollable list with covers, titles, and authors
 - Shows loading and error states
 - Book details in bottom sheet
-- Pull-to-refresh functionality
 
 ## Technologies
 - MVVM Architecture
