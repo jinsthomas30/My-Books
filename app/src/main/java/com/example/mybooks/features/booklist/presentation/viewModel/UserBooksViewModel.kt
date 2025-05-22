@@ -32,7 +32,7 @@ class UserBooksViewModel @Inject constructor(
             .subscribe { result ->
                 val state = when (result) {
                     is ResultState.Success -> UiState.Success(result.data)
-                    is ResultState.Error -> UiState.Error(result.message ?: "Unknown error")
+                    is ResultState.Error -> UiState.Error(result.message,result.errorType)
                     is ResultState.Loading -> UiState.Loading
                 }
                 _uiState.value = state

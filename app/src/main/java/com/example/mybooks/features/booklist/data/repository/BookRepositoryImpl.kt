@@ -4,6 +4,7 @@ import com.example.mybooks.features.booklist.data.mapper.BooksResponseMapper
 import com.example.mybooks.features.booklist.data.remote.ApiService
 import com.example.mybooks.features.booklist.domain.model.BookItem
 import com.example.mybooks.features.booklist.domain.repository.BookRepository
+import com.example.mybooks.features.booklist.presentation.state.ErrorType
 import com.example.mybooks.features.booklist.presentation.state.ResultState
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
@@ -20,7 +21,12 @@ class BookRepositoryImpl @Inject constructor(
                 ResultState.Success(userBooks)
             }
             .onErrorReturn { throwable ->
-                ResultState.Error(throwable.message ?: "Unknown Error")
+                val (message, errorType) = when (throwable) {
+                    is java.net.UnknownHostException -> "No internet connection" to ErrorType.NETWORK
+                    is java.net.SocketTimeoutException -> "Request timed out" to ErrorType.TIMEOUT
+                    else -> throwable.localizedMessage to ErrorType.UNKNOWN
+                }
+                ResultState.Error(message,errorType)
             }
             .startWithItem(ResultState.Loading)
     }
