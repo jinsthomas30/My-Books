@@ -133,7 +133,8 @@ fun ListItem(books: BookItem, onItemClick: (BookItem) -> Unit) {
                         .height(80.dp)
                         .width(60.dp),
                     contentScale = ContentScale.Crop,
-                    error = painterResource(R.drawable.placeholder),
+                    error = painterResource(R.drawable.image_error),
+                    placeholder = painterResource(R.drawable.placeholder),
                 )
                 Column(
                     modifier = Modifier

@@ -34,7 +34,8 @@ fun BookDetailsBottomSheetContent(book: BookItem) {
                 .width(120.dp)
                 .height(160.dp)
                 .align(Alignment.CenterHorizontally),
-            error = painterResource(R.drawable.placeholder),
+            error = painterResource(R.drawable.image_error),
+            placeholder = painterResource(R.drawable.placeholder),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
