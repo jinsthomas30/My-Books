@@ -1,6 +1,6 @@
 package com.example.mybooks.features.booklist.data.model
 
-data class MyBookResponse(
+data class BookResponse(
     val numFound: Int?,
     val page: Int?,
     val reading_log_entries: List<ReadingLogEntry?>?

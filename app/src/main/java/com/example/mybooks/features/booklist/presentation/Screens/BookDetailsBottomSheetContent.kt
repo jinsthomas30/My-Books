@@ -17,10 +17,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mybooks.R
-import com.example.mybooks.features.booklist.domain.model.UserBooksModel
+import com.example.mybooks.features.booklist.domain.model.BookItem
 
 @Composable
-fun BookDetailsBottomSheetContent(book: UserBooksModel) {
+fun BookDetailsBottomSheetContent(book: BookItem) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

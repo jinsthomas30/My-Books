@@ -1,8 +1,8 @@
 package com.example.mybooks.features.booklist.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.example.mybooks.features.booklist.domain.usecase.GetUserBooksUseCase
-import com.example.mybooks.features.booklist.presentation.state.ResourceState
+import com.example.mybooks.features.booklist.domain.usecase.BooksUseCase
+import com.example.mybooks.features.booklist.presentation.state.ResultState
 import com.example.mybooks.features.booklist.presentation.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserBooksViewModel @Inject constructor(
-    private val getUserBooksUseCase: GetUserBooksUseCase
+    private val booksUseCase: BooksUseCase
 ) : ViewModel() {
 
     private val disposables = CompositeDisposable()
@@ -22,18 +22,18 @@ class UserBooksViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     init {
-        getUserBooks("jins719")
+        getUserBooks("mekBot")
     }
 
     fun getUserBooks(username: String) {
-        val disposable = getUserBooksUseCase(username)
+        val disposable = booksUseCase(username)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result ->
                 val state = when (result) {
-                    is ResourceState.Success -> UiState.Success(result.data)
-                    is ResourceState.Error -> UiState.Error(result.message ?: "Unknown error")
-                    is ResourceState.Loading -> UiState.Loading
+                    is ResultState.Success -> UiState.Success(result.data)
+                    is ResultState.Error -> UiState.Error(result.message ?: "Unknown error")
+                    is ResultState.Loading -> UiState.Loading
                 }
                 _uiState.value = state
             }

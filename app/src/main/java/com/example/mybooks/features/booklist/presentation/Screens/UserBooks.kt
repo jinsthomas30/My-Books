@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.mybooks.R
-import com.example.mybooks.features.booklist.domain.model.UserBooksModel
+import com.example.mybooks.features.booklist.domain.model.BookItem
 import com.example.mybooks.features.booklist.presentation.state.UiState
 import com.example.mybooks.features.booklist.presentation.viewModel.UserBooksViewModel
 
@@ -51,7 +51,7 @@ import com.example.mybooks.features.booklist.presentation.viewModel.UserBooksVie
 @Composable
 fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
     val bottomSheetState = rememberModalBottomSheetState()
-    var selectedBook by remember { mutableStateOf<UserBooksModel?>(null) }
+    var selectedBook by remember { mutableStateOf<BookItem?>(null) }
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(topBar = {
@@ -92,7 +92,7 @@ fun UserBooks(viewModel: UserBooksViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserBooksList(userBooks: List<UserBooksModel>, onItemClick: (UserBooksModel) -> Unit) {
+fun UserBooksList(userBooks: List<BookItem>, onItemClick: (BookItem) -> Unit) {
     Column {
         if (userBooks.isEmpty()) {
             Box(Modifier.fillMaxSize(), Alignment.Center) {
@@ -113,7 +113,7 @@ fun UserBooksList(userBooks: List<UserBooksModel>, onItemClick: (UserBooksModel)
 }
 
 @Composable
-fun ListItem(userBooks: UserBooksModel, onItemClick: (UserBooksModel) -> Unit) {
+fun ListItem(userBooks: BookItem, onItemClick: (BookItem) -> Unit) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp

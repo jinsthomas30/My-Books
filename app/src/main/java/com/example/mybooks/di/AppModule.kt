@@ -2,8 +2,8 @@ package com.example.mybooks.di
 
 import com.example.mybooks.BuildConfig
 import com.example.mybooks.features.booklist.data.remote.ApiService
-import com.example.mybooks.features.booklist.data.repository.GetUserBooksRepositoryImpl
-import com.example.mybooks.features.booklist.domain.repository.GetUserBooksRepository
+import com.example.mybooks.features.booklist.data.repository.BookRepositoryImpl
+import com.example.mybooks.features.booklist.domain.repository.BookRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,7 @@ object AppModule {
     }
 
     @Provides
-    fun provideUserBooksRepository(apiService: ApiService): GetUserBooksRepository =
-        GetUserBooksRepositoryImpl(apiService)
+    fun provideUserBooksRepository(apiService: ApiService): BookRepository =
+        BookRepositoryImpl(apiService)
 
 }
