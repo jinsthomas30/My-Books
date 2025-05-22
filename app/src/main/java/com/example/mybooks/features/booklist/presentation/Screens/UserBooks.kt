@@ -113,7 +113,7 @@ fun UserBooksList(userBooks: List<BookItem>, onItemClick: (BookItem) -> Unit) {
 }
 
 @Composable
-fun ListItem(userBooks: BookItem, onItemClick: (BookItem) -> Unit) {
+fun ListItem(books: BookItem, onItemClick: (BookItem) -> Unit) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -121,14 +121,14 @@ fun ListItem(userBooks: BookItem, onItemClick: (BookItem) -> Unit) {
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .fillMaxWidth()
-            .clickable { onItemClick(userBooks) }
+            .clickable { onItemClick(books) }
     ) {
         Column {
             Row {
                 // Book cover image
                 AsyncImage(
-                    model = "https://covers.openlibrary.org/b/id/${userBooks.coverId}-M.jpg",
-                    contentDescription = "Cover for ${userBooks.title}",
+                    model = books.coverId,
+                    contentDescription = "Cover for ${books.title}",
                     modifier = Modifier
                         .height(80.dp)
                         .width(60.dp),
@@ -141,15 +141,15 @@ fun ListItem(userBooks: BookItem, onItemClick: (BookItem) -> Unit) {
                 ) {
                     // Book title
                     Text(
-                        text = userBooks.title,
+                        text = books.title,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Blue
+                        color = Color.Black
                     )
                     Spacer(Modifier.height(8.dp))
                     // Book Author
                     Text(
-                        text = "By ${userBooks.author}",
-                        color = Color.Blue
+                        text = "By ${books.author}",
+                        color = Color.Black
                     )
                 }
             }

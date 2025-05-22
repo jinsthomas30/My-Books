@@ -28,7 +28,7 @@ fun BookDetailsBottomSheetContent(book: BookItem) {
     ) {
         // Book cover image
         AsyncImage(
-            model = "https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg",
+            model = book.coverId,
             contentDescription = "Cover for ${book.title}",
             modifier = Modifier
                 .width(120.dp)
