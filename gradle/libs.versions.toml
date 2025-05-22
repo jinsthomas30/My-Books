@@ -15,6 +15,9 @@ kspVersion = "2.0.21-1.0.28"
 hiltAndroidVersion = "2.56.2"
 hiltNavigationCompose = "1.2.0"
 coilCompose = "2.7.0"
+rxjava = "3.1.10"
+rxandroid = "3.0.2"
+adapterRxjava3 = "3.0.0"
 
 
 [libraries]
@@ -39,6 +42,9 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android" , version.re
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.ref = "hiltAndroidVersion"}
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
+rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+adapter-rxjava3 = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "adapterRxjava3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

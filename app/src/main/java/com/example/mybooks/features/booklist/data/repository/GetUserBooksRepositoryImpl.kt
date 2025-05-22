@@ -5,22 +5,23 @@ import com.example.mybooks.features.booklist.data.remote.ApiService
 import com.example.mybooks.features.booklist.domain.model.UserBooksModel
 import com.example.mybooks.features.booklist.domain.repository.GetUserBooksRepository
 import com.example.mybooks.features.booklist.presentation.state.ResourceState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-class GetUserBooksRepositoryImpl @Inject constructor(val apiService: ApiService) :
-    GetUserBooksRepository {
-    override fun getUserBooks(username: String): Flow<ResourceState<List<UserBooksModel>>> = flow {
-        try {
-            emit(ResourceState.Loading())
-            val mapper = BooksResponseMapper()
-            val response = apiService.getUserBooks(username)
-            val userBooks = mapper.mapToDomain(response)
-            emit(ResourceState.Success(userBooks))
+class GetUserBooksRepositoryImpl @Inject constructor(
+    private val apiService: ApiService
+) : GetUserBooksRepository {
 
-        } catch (e: Exception) {
-            emit(ResourceState.Error(message = e.message ?: "UnKnown Error"))
-        }
+    override fun getUserBooks(username: String): Observable<ResourceState<List<UserBooksModel>>> {
+        return apiService.getUserBooks(username)
+            .map<ResourceState<List<UserBooksModel>>> { response ->
+                val mapper = BooksResponseMapper()
+                val userBooks = mapper.mapToDomain(response)
+                ResourceState.Success(userBooks)
+            }
+            .onErrorReturn { throwable ->
+                ResourceState.Error(throwable.message ?: "Unknown Error")
+            }
+            .startWithItem(ResourceState.Loading)
     }
 }
