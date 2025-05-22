@@ -31,7 +31,7 @@ class UserBooksViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result ->
                 val state = when (result) {
-                    is ResourceState.Success -> UiState.Success(result.data ?: emptyList())
+                    is ResourceState.Success -> UiState.Success(result.data)
                     is ResourceState.Error -> UiState.Error(result.message ?: "Unknown error")
                     is ResourceState.Loading -> UiState.Loading
                 }
